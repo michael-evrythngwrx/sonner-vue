@@ -1,8 +1,14 @@
-import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { resolve, dirname } from 'node:path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+
+// `import.meta.dirname` is typed `string | undefined` without @types/node's ImportMeta
+// augmentation in scope (varies by workspace package) — use the portable fileURLToPath idiom
+// instead so this config type-checks the same everywhere.
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Library build config (Vite lib mode).
 // Outputs: dist/index.mjs, dist/index.cjs, dist/index.d.ts (+ mirrored .d.mts via
@@ -12,7 +18,7 @@ export default defineConfig({
     vue(),
     dts({
       entryRoot: 'src',
-      tsconfigPath: resolve(import.meta.dirname, 'tsconfig.json'),
+      tsconfigPath: resolve(__dirname, 'tsconfig.json'),
       outDir: 'dist',
       // We hand-roll the .d.mts mirror + styles.css copy in scripts/postbuild.mjs
       // (sequential, outside Rollup's parallel closeBundle hook) — see D9/D10 in
@@ -44,7 +50,7 @@ export default defineConfig({
   build: {
     cssCodeSplit: false,
     lib: {
-      entry: resolve(import.meta.dirname, 'src/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'cjs'],
       fileName: (format) => (format === 'es' ? 'index.mjs' : 'index.cjs'),
     },

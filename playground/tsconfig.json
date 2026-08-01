@@ -13,11 +13,10 @@
     "skipLibCheck": true,
     "noEmit": true,
     "useDefineForClassFields": true,
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
     "paths": {
       "sonner-vue": ["../src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]
 }
