@@ -658,8 +658,8 @@ const liStyle = computed<CSSProperties>(() => {
 
     <template v-if="cancelResolution.kind === 'action'">
       <button
-        data-button
-        data-cancel
+        data-button="true"
+        data-cancel="true"
         :style="cancelButtonStyleResolved"
         :class="cancelButtonClass"
         @click="onCancelClick"
@@ -673,8 +673,8 @@ const liStyle = computed<CSSProperties>(() => {
 
     <template v-if="actionResolution.kind === 'action'">
       <button
-        data-button
-        data-action
+        data-button="true"
+        data-action="true"
         :style="actionButtonStyleResolved"
         :class="actionButtonClass"
         @click="onActionClick"

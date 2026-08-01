@@ -177,7 +177,15 @@ export interface ToastProps {
   index: number;
   swipeDirections?: SwipeDirection[];
   expanded: boolean;
-  invert: boolean;
+  // Optional, unlike upstream sonner-react's `invert: boolean` (types.ts). Upstream's
+  // requiredness is a type-level fiction it never enforces at the call site: `Toaster`
+  // destructures its own `invert` with no default (`invert,` — `boolean | undefined`) and
+  // forwards it raw as `invert={invert}`, so `undefined` genuinely flows into `Toast` despite
+  // the "required boolean" declaration. Widened here so that same `undefined` can flow through
+  // Vue's prop system too — see component-spec.md's Orchestrator corrections §OC-3 and Toast.vue's
+  // `invert` computed / `data-invert` binding (`undefined` in -> attribute omitted, matching
+  // React's `data-invert={invert}` omitting the attribute for an undefined value).
+  invert?: boolean;
   heights: HeightT[];
   // React's `React.Dispatch<React.SetStateAction<HeightT[]>>` (a useState setter accepting
   // either a new array or an updater function) has no direct Vue equivalent — this signature

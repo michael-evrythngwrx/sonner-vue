@@ -15,6 +15,16 @@ const MOBILE_VIEWPORT_OFFSET = '16px';
 const TOAST_WIDTH = 356;
 const GAP = 14;
 
+// `invert`/`richColors` get an EXPLICIT `undefined` default — not merely "no entry" — per
+// component-spec.md's Orchestrator corrections §OC-3. Vue's Boolean-prop runtime casting
+// resolves an ABSENT optional boolean prop to `false` unless the prop already has an own
+// `default` key in its resolved options (even one whose value is `undefined`); with no entry
+// here at all, an unset `<Toaster invert>`/`<Toaster richColors>` would silently become `false`
+// instead of `undefined`, which then propagates into `Toast` and renders `data-invert="false"`/
+// `data-rich-colors="false"` where React (no such casting) renders neither attribute at all.
+// Giving these two an explicit `undefined` default suppresses the cast and lets `props.invert`/
+// `props.richColors` genuinely be `undefined` when the consumer never sets them, matching
+// upstream's own un-defaulted `invert,`/`richColors,` destructuring in `index.tsx`.
 const props = withDefaults(defineProps<ToasterProps>(), {
   theme: 'light',
   position: 'bottom-right',
@@ -22,6 +32,8 @@ const props = withDefaults(defineProps<ToasterProps>(), {
   gap: GAP,
   visibleToasts: VISIBLE_TOASTS_AMOUNT,
   containerAriaLabel: 'Notifications',
+  invert: undefined,
+  richColors: undefined,
 });
 
 // --- §2 helper functions -----------------------------------------------------------------
@@ -379,6 +391,20 @@ const ariaLabel = computed(() => props.customAriaLabel ?? `${props.containerAria
         @pointerdown="onOlPointerDown"
         @pointerup="onOlPointerUp"
       >
+        <!-- OC-3 boolean-forwarding sweep verdicts (component-spec.md Orchestrator corrections):
+             - `:invert` is a RAW forward, no `?? false`. `props.invert` is `undefined` when the
+               consumer never sets it (see the explicit `undefined` default above), and must stay
+               `undefined` all the way into Toast's `data-invert` binding to match React's
+               `invert={invert}` (undefined -> attribute omitted). Do NOT reintroduce a `??`/`||`
+               default on this binding.
+             - `:closeButton`'s trailing `?? false` is intentionally KEPT: ToastProps.closeButton
+               is a required `boolean` (matching upstream's own required declaration), and Toast.vue
+               only ever consumes it through `Boolean(closeButton.value)`, never a raw data-*
+               binding — `false` vs `undefined` is unobservable in the rendered DOM here.
+             - `:expandByDefault`'s trailing `?? false` is likewise kept for the same reason:
+               ToastProps.expandByDefault is required `boolean`, and Toast.vue only reads it
+               through `Boolean(... && mounted.value)` (data-expanded) or a ternary
+               (`--initial-height`), never a raw attribute binding. -->
         <Toast
           v-for="(toast, toastIndex) in toastsForGroup(position, index)"
           :key="toast.id"
@@ -389,7 +415,7 @@ const ariaLabel = computed(() => props.customAriaLabel ?? `${props.containerAria
           :duration="props.toastOptions?.duration ?? props.duration"
           :className="props.toastOptions?.className"
           :descriptionClassName="props.toastOptions?.descriptionClassName"
-          :invert="props.invert ?? false"
+          :invert="props.invert"
           :visibleToasts="props.visibleToasts"
           :closeButton="props.toastOptions?.closeButton ?? props.closeButton ?? false"
           :interacting="interacting"
