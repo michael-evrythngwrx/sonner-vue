@@ -1,0 +1,56 @@
+{
+  "name": "sonner-vue",
+  "version": "0.1.0",
+  "description": "An opinionated toast component for Vue 3. A faithful port of sonner.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "toast",
+    "notifications",
+    "snackbar",
+    "sonner"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      },
+      "default": "./dist/index.mjs"
+    },
+    "./dist/styles.css": "./dist/styles.css"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter playground dev",
+    "build": "vite build && node scripts/postbuild.mjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "jsdom": "^30.0.1",
+    "typescript": "6.0.3",
+    "vite": "^8.2.0",
+    "vite-plugin-css-injected-by-js": "^5.0.2",
+    "vite-plugin-dts": "^5.0.3",
+    "vitest": "^4.1.10",
+    "vue": "^3.5.40",
+    "vue-tsc": "^3.3.9"
+  }
+}
