@@ -307,12 +307,18 @@ function resolvedDir(): ToasterProps['dir'] {
 
 // --- §8.7 possiblePositions / filteredToasts --------------------------------------------------
 
-// `id` scopes which toasts this Toaster renders (component-spec.md §8.1: "id ... scopes which
-// toasts this Toaster renders, see §8.2"). The exact filter formula is not spelled out verbatim
-// in the spec body; this is the parity-preserving reconstruction consistent with `ToastT
-// .toasterId`'s existence and AC-7's cross-reference ("two <Toaster/>s with no id both render
-// every untagged toast") — see structured-output ambiguities.
-const filteredToasts = computed(() => toasts.value.filter((toast) => !toast.toasterId || toast.toasterId === props.id));
+// `id` scopes which toasts this Toaster renders — exact upstream branching semantics
+// (sonner src/index.tsx lines 617-622, see component-spec.md OC-1): a Toaster WITH an id
+// renders ONLY toasts whose toasterId matches it; a Toaster WITHOUT an id renders ONLY
+// untagged toasts. Do NOT collapse this back into a single `!t.toasterId || t.toasterId ===
+// props.id` filter — that would make an id-less Toaster also render OTHER Toasters' scoped
+// toasts, which upstream never does.
+const filteredToasts = computed(() => {
+  if (props.id) {
+    return toasts.value.filter((toast) => toast.toasterId === props.id);
+  }
+  return toasts.value.filter((toast) => !toast.toasterId);
+});
 
 const possiblePositions = computed<Position[]>(() => {
   const fromToasts = filteredToasts.value.filter((t) => t.position).map((t) => t.position as Position);

@@ -631,6 +631,17 @@ const liStyle = computed<CSSProperties>(() => {
     @pointerup="onPointerUp"
     @pointermove="onPointerMove"
   >
+    <button
+      v-if="showCloseButton"
+      :aria-label="props.closeButtonAriaLabel"
+      :data-disabled="disabled"
+      data-close-button="true"
+      :class="closeButtonClass"
+      @click="onCloseClick"
+    >
+      <CloseIconSlot />
+    </button>
+
     <div v-if="showIconContainer" data-icon="" :class="iconContainerClass">
       <IconChild1 />
       <IconChild2 />
@@ -674,16 +685,5 @@ const liStyle = computed<CSSProperties>(() => {
     <template v-else-if="actionResolution.kind === 'node'">
       <ActionNodeSlot />
     </template>
-
-    <button
-      v-if="showCloseButton"
-      :aria-label="props.closeButtonAriaLabel"
-      :data-disabled="disabled"
-      data-close-button="true"
-      :class="closeButtonClass"
-      @click="onCloseClick"
-    >
-      <CloseIconSlot />
-    </button>
   </li>
 </template>
