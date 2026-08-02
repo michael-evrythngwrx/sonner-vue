@@ -4,6 +4,18 @@
   "description": "An opinionated toast component for Vue 3. A faithful port of sonner.",
   "type": "module",
   "license": "MIT",
+  "author": "Michael Murray <michael@evrythngwrx.io>",
+  "homepage": "https://github.com/michael-evrythngwrx/sonner-vue#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael-evrythngwrx/sonner-vue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/michael-evrythngwrx/sonner-vue/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "keywords": [
     "vue",
     "toast",
