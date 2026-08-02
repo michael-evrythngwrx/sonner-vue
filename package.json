@@ -1,9 +1,12 @@
 {
-  "name": "sonner-vue",
+  "name": "@michael-evrythngwrx/sonner-vue",
   "version": "0.1.0",
   "description": "An opinionated toast component for Vue 3. A faithful port of sonner.",
   "type": "module",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Michael Murray <michael@evrythngwrx.io>",
   "homepage": "https://github.com/michael-evrythngwrx/sonner-vue#readme",
   "repository": {

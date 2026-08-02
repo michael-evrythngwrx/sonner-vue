@@ -19,15 +19,15 @@ maintained by Emil Kowalski. Source: [sonner on GitHub](https://github.com/emilk
 ## Install
 
 ```bash
-pnpm add sonner-vue
+pnpm add @michael-evrythngwrx/sonner-vue
 ```
 
 ```bash
-npm install sonner-vue
+npm install @michael-evrythngwrx/sonner-vue
 ```
 
 ```bash
-yarn add sonner-vue
+yarn add @michael-evrythngwrx/sonner-vue
 ```
 
 `vue` `^3.4` is a peer dependency.
@@ -40,7 +40,7 @@ Then call `toast()` from anywhere.
 ```vue
 <!-- App.vue -->
 <script setup lang="ts">
-import { Toaster, toast } from 'sonner-vue';
+import { Toaster, toast } from '@michael-evrythngwrx/sonner-vue';
 </script>
 
 <template>
@@ -54,7 +54,7 @@ blocks inline style/script injection (or you'd simply rather not have JS write a
 import the stylesheet manually instead and it'll take over:
 
 ```ts
-import 'sonner-vue/dist/styles.css';
+import '@michael-evrythngwrx/sonner-vue/dist/styles.css';
 ```
 
 ## Usage
@@ -141,7 +141,7 @@ const data = await toast.promise(promise, { loading: 'Loading...' }).unwrap();
 
 ```ts
 import { h } from 'vue';
-import { toast } from 'sonner-vue';
+import { toast } from '@michael-evrythngwrx/sonner-vue';
 
 toast.custom((id) => h(MyToast, { onClose: () => toast.dismiss(id) }));
 ```
@@ -159,7 +159,7 @@ toast.dismiss(); // dismiss all
 building a fully custom renderer:
 
 ```ts
-import { useSonner } from 'sonner-vue';
+import { useSonner } from '@michael-evrythngwrx/sonner-vue';
 
 const { toasts } = useSonner(); // toasts.value: ToastT[]
 ```
@@ -228,7 +228,7 @@ Pass `theme="system"` to follow the OS preference automatically, or manage the v
 ```vue
 <script setup lang="ts">
 import { h } from 'vue';
-import { Toaster } from 'sonner-vue';
+import { Toaster } from '@michael-evrythngwrx/sonner-vue';
 </script>
 
 <template>
@@ -254,7 +254,7 @@ import { Toaster } from 'sonner-vue';
   ```vue
   <script setup lang="ts">
   import { ref, onMounted } from 'vue';
-  import { Toaster } from 'sonner-vue';
+  import { Toaster } from '@michael-evrythngwrx/sonner-vue';
 
   const toasterRef = ref<InstanceType<typeof Toaster>>();
   onMounted(() => console.log(toasterRef.value?.$el));

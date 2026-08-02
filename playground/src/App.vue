@@ -7,7 +7,7 @@
 // `default-button-top` button being an exact duplicate of `default-button`'s handler): they are
 // upstream fixtures, not bugs.
 import { h, ref, computed } from 'vue';
-import { toast, Toaster } from 'sonner-vue';
+import { toast, Toaster } from '@michael-evrythngwrx/sonner-vue';
 
 // ---------------------------------------------------------------------------------------------
 // §4 — URL search-param contract, read SYNCHRONOUSLY at setup (no router, no async resolution).

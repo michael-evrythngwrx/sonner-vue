@@ -8,13 +8,13 @@ import vue from '@vitejs/plugin-vue';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Private dev/e2e playground app — replicates sonner's test app DOM contract (see
-// test-contract.md). Aliases the `sonner-vue` package to the library's own source entry so the
-// playground always exercises the current source, not a stale build artifact.
+// test-contract.md). Aliases the `@michael-evrythngwrx/sonner-vue` package to the library's own
+// source entry so the playground always exercises the current source, not a stale build artifact.
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      'sonner-vue': resolve(__dirname, '../src/index.ts'),
+      '@michael-evrythngwrx/sonner-vue': resolve(__dirname, '../src/index.ts'),
     },
     dedupe: ['vue'],
   },

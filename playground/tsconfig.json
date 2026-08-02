@@ -15,7 +15,7 @@
     "useDefineForClassFields": true,
     "types": ["vite/client", "node"],
     "paths": {
-      "sonner-vue": ["../src/index.ts"]
+      "@michael-evrythngwrx/sonner-vue": ["../src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]
