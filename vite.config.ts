@@ -20,11 +20,16 @@ export default defineConfig({
       entryRoot: 'src',
       tsconfigPath: resolve(__dirname, 'tsconfig.json'),
       outDir: 'dist',
-      // We hand-roll the .d.mts mirror + styles.css copy in scripts/postbuild.mjs
+      // We hand-roll the .d.mts/.d.cts mirrors + styles.css copy in scripts/postbuild.mjs
       // (sequential, outside Rollup's parallel closeBundle hook) — see D9/D10 in
       // ARCHITECTURE.md and styles-spec.md §1 for why this must be a real byte copy.
       insertTypesEntry: false,
-      rollupTypes: false,
+      // Bundle into a single self-contained dist/index.d.ts (no internal relative imports),
+      // matching sonner's own bunchee-built dist/index.d.mts. Split per-module declaration
+      // files with extensionless relative imports (e.g. `from './hooks'`) fail Node16/NodeNext
+      // ESM type resolution — see @arethetypeswrong/cli's InternalResolutionError.
+      // (Requires @microsoft/api-extractor as a devDependency.)
+      bundleTypes: true,
     }),
     // D10: CSS DX parity with sonner — importing the package alone injects styles.
     // injectCodeFunction is guarded by `typeof document !== 'undefined'` so that
